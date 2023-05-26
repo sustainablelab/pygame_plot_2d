@@ -1,4 +1,4 @@
-FILE = bob.py
+FILE = plot.py
 .PHONY: tags
 tags:
 	ctags $(FILE) --languages=python
