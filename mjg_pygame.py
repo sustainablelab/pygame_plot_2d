@@ -27,22 +27,45 @@ class PGG:
 
     # Create an instance
     >>> pGG = PGG() # pGG : collection of pygame globals
+
+    # More likely, create a child class to add attributes and methods
+
+    class GUI(PGG):
+    N_grid_lines = 5                                   # N x N grid lines
+    def handle_keydown(self,e,kmod) -> None:
+        if e.key == pg.K_ESCAPE:                        # Esc : quit
+            self.quit = True
+        elif e.key == pg.K_q:                           # q : quit
+            self.quit = True
+        elif e.key == pg.K_n:                           # N_grid_lines
+            if(kmod & pg.KMOD_SHIFT):
+                self.N_grid_lines -= 1                  # N : less grid lines
+            else:
+                self.N_grid_lines += 1                  # n : more grid lines
     """
 
-    def __init__(self):
-        self.setup()
+    def __init__(self, w, h):
+        self.setup(w,h)
 
-    def setup(self) -> None:
+    def setup(self, w, h) -> None:
         self.quit = False
         os.environ["PYGAME_BLEND_ALPHA_SDL2"] = "1"     # Use SDL2 alpha blending
         pg.display.init()                               # Init video module
         self.Clock = pg.time.Clock();
-        def setup_window() -> None:
-            """Create self.scr : the main renderer surface"""
-            self.surf_w = 16*40                         # 640
-            self.surf_h = 9*40                          # 360
+        def setup_window(w,h) -> None:
+            """Create self.scr : the main renderer surface
+
+            Example
+            -------
+            OS_WIN_SCALE = 60
+            gui = GUI(
+                    w=16*OS_WIN_SCALE,                              # 16*40 = 640
+                    h=9*OS_WIN_SCALE)                               #  9*40 = 360
+            """
+            self.surf_w = w
+            self.surf_h = h
             self.Surf = pg.display.set_mode((self.surf_w,self.surf_h)) #  OS window : 640 x 360
-        setup_window()
+        setup_window(w,h)
         def init_font() -> None:
             """Store TTF for drawing text in self.Font; also store self.font_w,self.font_h"""
             pg.font.init()                              # Init TTF fonts module

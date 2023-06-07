@@ -39,7 +39,10 @@ class GUI(PGG):
             else:
                 self.N_grid_lines += 1                  # n : more grid lines
 
-gui = GUI()
+OS_WIN_SCALE = 60
+gui = GUI(
+        w=16*OS_WIN_SCALE,                              # 16*40 = 640
+        h=9*OS_WIN_SCALE)                               #  9*40 = 360
 
 while (not gui.quit):
     ####
@@ -82,7 +85,7 @@ while (not gui.quit):
         pb_h = h*size
         #
         # Create the plot area surface
-        # TODO: why +1?
+        # Why +1 to w and h? Otherwise the x-axis and right-hand y-axis are clipped.
         tex = pg.Surface((pb_w+1,pb_h+1), pg.SRCALPHA)
         #
         # Draw grid lines
