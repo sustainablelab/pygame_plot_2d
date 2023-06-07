@@ -25,23 +25,32 @@ atexit.register(shutdown)                               # Auto-shutdown before p
 class PGG:
     """Global singleton to hold pygame stuff
 
-    # Create an instance
-    >>> pGG = PGG() # pGG : collection of pygame globals
+    Simple example just to test the module is working:
 
-    # More likely, create a child class to add attributes and methods
+    # Create an instance with OS window size 640x360
+    >>> pGG = PGG(640,360) # pGG : collection of pygame globals
 
-    class GUI(PGG):
-    N_grid_lines = 5                                   # N x N grid lines
-    def handle_keydown(self,e,kmod) -> None:
-        if e.key == pg.K_ESCAPE:                        # Esc : quit
-            self.quit = True
-        elif e.key == pg.K_q:                           # q : quit
-            self.quit = True
-        elif e.key == pg.K_n:                           # N_grid_lines
-            if(kmod & pg.KMOD_SHIFT):
-                self.N_grid_lines -= 1                  # N : less grid lines
-            else:
-                self.N_grid_lines += 1                  # n : more grid lines
+    Practical usage is to first create a child class to add application-specific
+    functionality, then make an instance of the child class.
+
+    Create a child class to add attributes and methods:
+
+        class GUI(PGG):
+            N_grid_lines = 5                            # Add attribute
+            def handle_keydown(self,e,kmod) -> None:    # Add method for key events
+                if e.key == pg.K_ESCAPE:
+                    self.quit = True
+                elif e.key == pg.K_q:
+                    self.quit = True
+                elif e.key == pg.K_n:
+                    if(kmod & pg.KMOD_SHIFT):
+                        self.N_grid_lines -= 1
+                    else:
+                        self.N_grid_lines += 1
+
+    Create an instance of the child class with OS window size 640x360:
+
+        gui = GUI(640,360)
     """
 
     def __init__(self, w, h):
