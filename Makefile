@@ -7,3 +7,7 @@ tags:
 list-tags:
 	@printf "=== $(FILE) ===\n"
 	@ctags -x $(FILE) --languages=python
+
+.PHONY: test
+test:
+	python -m doctest mjg_plot.py
