@@ -28,10 +28,29 @@ class PGG:
     Simple example just to test the module is working:
 
     # Create an instance with OS window size 640x360
-    >>> pGG = PGG(640,360) # pGG : collection of pygame globals
+    >>> pGG = PGG(640,360)                              # pGG : collection of pygame globals
+    >>> print(dir(pGG))                                 # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+    ['Clock', 'Debug_Font', 'Debug_font_h', 'Debug_font_w', 'Font', 'Surf',
+    '__class__',..., '__weakref__',
+    'font_h', 'font_w', 'quit', 'setup', 'surf_h', 'surf_w']
+
+    Clock: at the end of the game loop:
+
+        pGG.Clock.tick(60)
+
+    Get FPS for debug HUD:
+    >>> print(f"FPS: {pGG.Clock.get_fps():0.1f}")
+    FPS: 0.0
+
+    Font: the base PGG has a font in two sizes: one for "normal" text and one for debug text.
+    >>> print(f"Normal font size is: {pGG.font_w} x {pGG.font_h}")
+    Normal font size is: 14 x 26
+    >>> print(f"Debug font size is: {pGG.Debug_font_w} x {pGG.Debug_font_h}")
+    Debug font size is: 7 x 13
 
     Practical usage is to first create a child class to add application-specific
     functionality, then make an instance of the child class.
+    (Then you don't make an instance of PGG as in the examples above.)
 
     Create a child class to add attributes and methods:
 
@@ -62,7 +81,7 @@ class PGG:
         pg.display.init()                               # Init video module
         self.Clock = pg.time.Clock();
         def setup_window(w,h) -> None:
-            """Create self.scr : the main renderer surface
+            """Create self.Surf : the main renderer surface
 
             Example
             -------
@@ -76,7 +95,12 @@ class PGG:
             self.Surf = pg.display.set_mode((self.surf_w,self.surf_h)) #  OS window : 640 x 360
         setup_window(w,h)
         def init_font() -> None:
-            """Store TTF for drawing text in self.Font; also store self.font_w,self.font_h"""
+            """Create self.Font, self.Debug_Font, and store the _w, _h for both.
+
+            Store TTFs (for drawing text) in self.Font and self.Debug_Font.
+            Store size of self.Font in self.font_w,self.font_h.
+            Store size of self.Debug_Font in self.Debug_font_w,self.Debug_font_h.
+            """
             pg.font.init()                              # Init TTF fonts module
             this_path = pathlib.Path(__file__).parent   # Path to this script's folder
             _font_path = pathlib.Path('fonts/ProggyClean.ttf')
