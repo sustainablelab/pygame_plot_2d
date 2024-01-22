@@ -1,13 +1,18 @@
 FILE = plot.py
 .PHONY: tags
 tags:
-	ctags $(FILE) --languages=python
+	ctags -R . --languages=python
 
-.PHONY: list-tags
-list-tags:
+.PHONY: tags-stdout
+tags-stdout:
 	@printf "=== $(FILE) ===\n"
 	@ctags -x $(FILE) --languages=python
 
-.PHONY: test
-test:
-	python -m doctest mjg_plot.py
+# Test plot.py with doctest: ;t<Space> (but there are no doctests in it yet...)
+# Test mjg_plot by sourcing it: ;so (it uses unittest)
+# Or uncomment everything below to test everything with doctest.
+.PHONY: tests
+tests:
+	python -m doctest mjg_pygame.py
+	@# python -m doctest mjg_plot.py
+	@# python -m doctest plot.py
